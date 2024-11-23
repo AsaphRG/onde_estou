@@ -4,9 +4,9 @@
     <div class="form-group">
         <div class="form-field">
             <label for="name">Nome:</label>
-            <input type="text" name="name" id="name" required>
+            <input type="text" name="name" id="name" autofocus required>
         </div>
-        <input type="submit" value="Enviar">
+        <input type="submit" class="btn btn-primary" value="Enviar">
     </div>
 </form>
 <?php require ABSOLUTE_PATH.'/partials/end.php' ?>

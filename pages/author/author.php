@@ -11,6 +11,11 @@ if ($id_author) {
     $result = $query->get_result();
     $author = $result->fetch_assoc();
 }
+if (!$author) {
+    $message = "Autor id $id_author não encontrado.";
+    header("Location: /PIE3/pages/author/authors.php?error=$message");
+    exit();
+}
 ?>
 
 <section>

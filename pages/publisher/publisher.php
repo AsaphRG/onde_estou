@@ -11,6 +11,11 @@ if ($id_publisher) {
     $result = $query->get_result();
     $publisher = $result->fetch_assoc();
 }
+if (!$publisher) {
+    $message = "Editora id $id_publisher não encontrado.";
+    header("Location: /PIE3/pages/publisher/publishers.php?error=$message");
+    exit();
+}
 ?>
 
 <section>

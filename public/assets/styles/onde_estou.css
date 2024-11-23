@@ -1,6 +1,7 @@
 :root {
     /* --bar-color: #3E89ED; */
     --bar-color: #56070c;
+    --darkest-bar-color: #47060A;
     /* --background: #3EC1ED; */
     --background: #eee;
     --links: #ddd;
@@ -29,6 +30,20 @@ header a:hover, footer a:hover {
 
 p {
     margin: 0;
+    text-indent: 1.5em;
+}
+
+img {
+    margin: 1vw 0;
+    border-radius: 1em;
+    width: 100%;
+}
+
+pre {
+    margin: 1vw 0;
+    background-color: #ddd;
+    padding: 1vw;
+    border-radius: 1em;
 }
 
 main {
@@ -55,8 +70,6 @@ a:hover {
     display: flex;
 }
 
-
-
 .list-items .row:first-child {
     background-color: rgba(200, 200, 200, 1);
 }
@@ -68,4 +81,18 @@ a:hover {
 .list-items .col:first-child, .list-items .col-6:first-child, .list-items .col-10:first-child {
     border-left: none;
     text-wrap: wrap;
+}
+
+.btn {
+    margin: .5vw;
+}
+
+.btn-primary {
+    background-color: var(--bar-color) !important;
+    border-color: var(--bar-color) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--darkest-bar-color) !important;
+    border-color: var(--darkest-bar-color) !important;
 }

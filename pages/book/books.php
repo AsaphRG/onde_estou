@@ -18,17 +18,17 @@ $books = mysqli_query($conn, 'SELECT * FROM book');
             <div class="row">
                 <a href="/PIE3/pages/book/book.php?id=<?= $book['id_book'] ?>" class="col-6">
                     <div>
-                        <p><?= $book['title'] ?></p>
+                        <?= $book['title'] ?>
                     </div>
                 </a>
                 <a href="/PIE3/pages/book/book.php?id=<?= $book['id_book'] ?>" class="col">
                     <div>
-                        <p><?= $book['actual_page'] ?></p>
+                        <?= $book['actual_page'] ?>
                     </div>
                 </a>
                 <a href="/PIE3/pages/book/book.php?id=<?= $book['id_book'] ?>" class="col">
                     <div>
-                        <p><?= $book['finished'] ? 'Finalizado' : 'Não finalizado' ?></p>
+                        <?= $book['finished'] ? 'Finalizado' : 'Não finalizado' ?>
                     </div>
                 </a>
                 <div class="col">

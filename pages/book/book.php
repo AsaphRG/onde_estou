@@ -10,6 +10,11 @@ if ($id_book) {
     $query->execute();
     $result = $query->get_result();
     $book = $result->fetch_assoc();
+    if (!$book) {
+        $message = "Livro id $id_book não encontrado.";
+        header("Location: /PIE3/pages/book/books.php?error=$message");
+        exit();
+    }
 
     // Traz os autores do livro de acordo com cada livro
     $query_id_authors = $conn->prepare('SELECT * FROM book_author WHERE id_book = ?');
