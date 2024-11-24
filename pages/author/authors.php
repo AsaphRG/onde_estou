@@ -17,7 +17,7 @@
                     <div ><?= $author['name'] ?></div>
                 </a>
                 <div class="col">
-                    <form action="/PIE3/dbconnect/delete_author.php" method="post"><input type="hidden" name="id" value="<?= $author['id_author'] ?>"><button type="submit" class="btn btn-danger btn-sm"><i class='fa-solid fa-x'></i></button></form>
+                    <form action="/PIE3/dbconnect/delete_author.php" method="post"><input type="hidden" name="csrf_token" value="<?= $csrf_token ?>"><input type="hidden" name="id_author" value="<?= $author['id_author'] ?>"><button type="submit" class="btn btn-danger btn-sm"><i class='fa-solid fa-xmark'></i></button></form>
                 </div>
             </div>
         <?php endforeach; ?>

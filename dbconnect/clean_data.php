@@ -17,7 +17,7 @@ function formTreatment($form): array {
 function get_messages($data) {
     $aux = [];
     foreach ($data as $key => $value) {
-        $aux[$key] = $value;
+        $aux[$key] = htmlspecialchars($value);
     }
     return $aux;
 }

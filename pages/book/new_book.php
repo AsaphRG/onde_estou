@@ -4,6 +4,7 @@ $publishers = mysqli_query($conn, 'SELECT * FROM publisher');
 $authors = mysqli_query($conn, 'SELECT * FROM author');
 ?>
 <form action="/PIE3/dbconnect/create_book.php" method="POST">
+    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
     <div class="form-group">
         <div class="form-field">
             <label for="title">Título:</label>

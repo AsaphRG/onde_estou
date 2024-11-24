@@ -1,4 +1,7 @@
 <?php
+session_start();
+$csrf_token = hash('sha256', uniqid(mt_rand(), true));
+$_SESSION['csrf_token'] = $csrf_token;
 require_once 'C:xampp/htdocs/PIE3/config.php';
 
 require ABSOLUTE_PATH.'/dbconnect/connect.php';

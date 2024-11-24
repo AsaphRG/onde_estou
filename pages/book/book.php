@@ -47,6 +47,13 @@ if ($id_book) {
     $query_publisher->execute();
     $result_publisher = $query_publisher->get_result();
     $publisher = $result_publisher->fetch_assoc();
+
+    // Traz as notas do livro
+    $query_notes = $conn->prepare("SELECT * FROM note WHERE id_book = ?");
+    $query_notes->bind_param('i', $id_book);
+    $query_notes->execute();
+    $result = $query_notes->get_result();
+    $notes = $result->fetch_all(MYSQLI_ASSOC);
 }
 
 $all_authors = $conn->query("SELECT * FROM author");
@@ -106,6 +113,40 @@ $all_publishers = $all_publishers->fetch_all();
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
+    </div>
+    <div class="book-notes">
+        <div class="new-note">
+            <form action="/PIE3/dbconnect/create_note.php" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                <input type="hidden" name="id_book" value="<?= $book['id_book'] ?>">
+                <div class="note note-number">Nota #<?= sizeof($notes) + 1 ?></div>
+                <div class="note note-pages">
+                    Sobre página <input type="number" name="init_page" id="init-page"> a <input type="number" name="end_page" id="end_page">
+                </div>
+                <textarea name="note" id="note"></textarea>
+                <div class="note-buttons">
+                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-check"></i></button>
+                    <button class="btn btn-primary" type="reset"><i class="fa-solid fa-eraser"></i></i></button>
+                </div>
+            </form>
+        </div>
+        <?php foreach ($notes as $index => $note) : ?>
+            <form action="/PIE3/dbconnect/update_note.php?id_note=<?= $note['id_note'] ?>" method="post">
+                <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+                <input type="hidden" name="id_book" value="<?= $book['id_book'] ?>">
+                <input type="hidden" name="id_note" value="<?= $note['id_note'] ?>">
+                <div class="note_number">Nota #<?= $index + 1 ?></div>
+                <div class="note note-pages">
+                    Sobre página <input type="number" name="init_page" id="init-page" value="<?= $note['init_page'] ?>"> a <input type="number" name="end_page" id="end_page" value="<?= $note['end_page'] ?>">
+                </div>
+                <textarea name="note" id="note"><?= $note['note'] ?></textarea>
+                <div class="note-buttons">
+                    <button class="btn btn-primary" type="submit"><i class="fa-solid fa-check"></i></button>
+                    <button class="btn btn-primary" type="reset"><i class="fa-solid fa-eraser"></i></i></button>
+                </div>
+            </form>
+            <form action="/PIE3/dbconnect/delete_note.php" method="post"><input type="hidden" name="csrf_token" value="<?= $csrf_token ?>"><input type="hidden" name="id_book" value="<?= $book['id_book'] ?>"><input type="hidden" name="id_note" value="<?= $note['id_note'] ?>"><button type="submit" class="btn btn-danger"><i class='fa-solid fa-xmark'></i></button></form>
+        <?php endforeach ?>
     </div>
 </section>
 <?php require ABSOLUTE_PATH.'/partials/end.php' ?>
