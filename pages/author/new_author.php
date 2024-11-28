@@ -4,8 +4,8 @@
     <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
     <div class="form-group">
         <div class="form-field">
-            <label for="name">Nome:</label>
-            <input type="text" name="name" id="name" autofocus required>
+            <label class="form-label" for="name">Nome:</label>
+            <input class="form-control" type="text" name="name" id="name" autofocus required>
         </div>
         <input type="submit" class="btn btn-primary" value="Enviar">
     </div>

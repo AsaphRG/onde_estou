@@ -23,8 +23,8 @@ if (!$publisher) {
         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
         <input type="hidden" name="id_publisher" value="<?= $publisher['id_publisher'] ?>">
         <div class="form-group">
-            <label for="name" class="form-field">Autor:</label>
-            <input type="text" name="name" id="name" value="<?= $publisher['name'] ?>">
+            <label class="form-label" for="name" class="form-field">Editora:</label>
+            <input class="form-control" type="text" name="name" id="name" value="<?= $publisher['name'] ?>" autofocus required>
         </div>
         <button class="btn btn-primary" type="submit">Salvar</button>
     </form>

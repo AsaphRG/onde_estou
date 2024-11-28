@@ -3,7 +3,7 @@ session_start();
 require_once '../config.php';
 
 $data = formTreatment($_POST);
-if ($data['csrf_toekn'] == $_SESSION['csrf_token']) {
+if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     $finished = isset($data['finished']);
 
     $sql = $conn->prepare("INSERT INTO book (title, subtitle, publication_year, id_publisher, actual_page, finished) VALUES (?, ?, ?, ?, ?, ?)");
@@ -26,6 +26,6 @@ if ($data['csrf_toekn'] == $_SESSION['csrf_token']) {
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/book/books.php?error=".urlencode($message));
     exit();
 }

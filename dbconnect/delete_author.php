@@ -1,4 +1,5 @@
 <?php
+session_start();
 require "../config.php";
 
 $data = formTreatment($_POST);
@@ -16,12 +17,13 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
             $query = $conn->prepare("DELETE FROM author WHERE id_author = ?");
             $query->bind_param('i', $id);
 
-            if ($query->execute() === TRUE) {
+            try {
+                $query->execute();
                 $message = $author['name']." excluído(a) com sucesso.";
                 header("Location: /PIE3/pages/author/authors.php?success=".urlencode($message));
                 exit();
-            } else {
-                $message = "O seguinte erro ocorreu ao tentar excluir o autor ".$author['name'].":<br>".$query->error;
+            } catch (Exception $error) {
+                $message = "O seguinte erro ocorreu ao tentar excluir o autor ".$author['name'].": ".$error->getMessage();
                 header("Location: /PIE3/pages/author/authors.php?error=".urlencode($message));
                 exit();
             }
@@ -33,6 +35,6 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/author/authors.php?error=".urlencode($message));
     exit();
 }

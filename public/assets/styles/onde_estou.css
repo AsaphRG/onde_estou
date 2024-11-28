@@ -22,6 +22,7 @@ header, footer {
     background-color: var(--bar-color);
     padding: 1vw 0;
     color: var(--links);
+    text-align: center;
 }
 
 header a:hover, footer a:hover {
@@ -55,6 +56,7 @@ main {
 
 .header-title {
     text-align: center;
+    display: inline-block;
 }
 
 a {
@@ -68,6 +70,12 @@ a:hover {
 
 .a-container {
     display: flex;
+}
+
+.col, .col-6, .col-10 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .list-items .row:first-child {
@@ -95,4 +103,17 @@ a:hover {
 .btn-primary:hover {
     background-color: var(--darkest-bar-color) !important;
     border-color: var(--darkest-bar-color) !important;
+}
+
+.note-pages {
+    display: inline;
+    width: 6vw;
+}
+
+textarea {
+    height: 20vh;
+}
+
+.form-field {
+    margin: 0 .5vw;
 }

@@ -30,6 +30,23 @@
         <li>Todos os inputs que serão passados para o banco de dados também recebem um segundo tratamento para evitar ataques de SQL Injection. Este eu não fiz uma fórmula para todos, mas ao invés disso optei por fazer uma estrutura para cada formulário a fim de garantir o máximo de flexibilidade para mim durante o desenvolvimento. Acredito que uma melhoria fosse possível, mas acho que vale deixar a refatoração para outro momento. Aqui está um exemplo de como foi feito usando a query do próprio autor:</li>
         <pre>$sql = $conn->prepare("INSERT INTO author (name) VALUES (?)");
 $sql->bind_param('s', $data['name']);</pre>
+        <li>Um outro sistema de segurança é o CSRF Token, que garante que todas as transações são feitas dentro da própria página. Para gerar este token estou usando duas funções do PHP para gerar valores aleatórios e depois criptografando-as com o algoritmo SHA-256 e salvando em Sessão, então ao enviar para a camada de modelo responsável pela manipulação dos dados é conferido se o token enviado no formulário é condizendo com o token salvo em sessão antes de executar a ação.</li>
+        <p>Ao acessar cada página esse código é executado:</p>
+        <pre>session_start();
+$csrf_token = hash('sha256', uniqid(mt_rand(), true));
+$_SESSION['csrf_token'] = $csrf_token;</pre>
+        <p>E enviado o token para todos os formulários da página.</p>
+        <pre>&lt;input type="hidden" name="csrf_token" value="<?= $csrf_token ?>"&gt;</pre>
+        <p>E por fim é recebido e conferido ao chegar em algum model.</p>
+        <pre>session_start();
+[...]
+if ($data['csrf_token'] == $_SESSION['csrf_token']) {
+    [...]
+} else {
+    $message = "Token de segurança inválido.";
+    header("Location: /PIE3/pages/author/authors.php?error=".urlencode($message));
+    exit();
+}</pre>
     </ol>
     <p class="about-text">Bem, parece que fiz bom proveito da lista ordenada, mas agora é hora de seguir em frente.</p>
     <p class="about-text">O funcionamento do campo editoras é idêntico ao campo de autores, são tabelas mais simples, mas que foram feitas dessa forma para evitar que a cada livro precisasse recadastrar esses campos, evitando inconsistências nos cadastros dos livros.</p>
@@ -59,6 +76,12 @@ $sql->bind_param('s', $data['name']);</pre>
     <p class="about-text">Assim fica o formulário preenchido. E como pode ver tem dois autores selecionados já que o livro possui dois autores. Visualmente é uma atividade fácil de se fazer, mas este se mostrou um campo difícil de se gerenciar no banco de dados.</p>
     <img src="/PIE3/public/assets/images/manual/new_book_registered.png" alt="">
     <center><h1>E finalmente livro cadastrado!</h1></center>
+    <p>Agora para acessar o livro basta clicar nele e ao acessá-lo podemos criar notas sobre o livro.</p>
+    <img src="/PIE3/public/assets/images/manual/new_book_notes.png" alt="">
+    <p>O processo é tão simples quanto deveria ser. O campo de nota é obrigatório, as páginas são opcionais. Uma vez preenchido o formulário basta clicar no botão com um símbolo de V que o mesmo será submetido para cadastro. A borracha apaga todo o formulário de uma vez.</p>
+    <img src="/PIE3/public/assets/images/manual/new_book_new_note.png" alt="">
+    <p>Uma vez registrada a nota o sistema faz a contagem das notas cadastradas e as já cadastradas ganham um botão vermelho para deleção da nota.</p>
+    <center><h1>Fim!</h1></center>
 </section>
 
 <?php require ABSOLUTE_PATH.'/partials/end.php'; ?>
