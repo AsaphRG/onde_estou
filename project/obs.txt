@@ -1,4 +1,4 @@
 Criar tags (grupos) de livros
 Gênero dos livros
-Tirar a editora como obrigatória (Ou opção mais abrangente para artigos)
-Marcar a página atual
+Tirar a editora como obrigatória (Ou opção mais abrangente para artigos) - feito
+No site marcar a página que você está ao navegar por ele

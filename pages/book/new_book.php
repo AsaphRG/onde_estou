@@ -16,7 +16,7 @@ $authors = mysqli_query($conn, 'SELECT * FROM author');
         </div>
         <div class="form-field">
             <label class="form-label" for="publication_year">Ano de publicação:</label>
-            <input class="form-control" type="text" name="publication_year" id="publication_year" required>
+            <input class="form-control" type="text" name="publication_year" id="publication_year">
         </div>
         <div class="form-field">
             <label class="form-label" for="id_author">Autor(es):</label>

@@ -117,3 +117,19 @@ textarea {
 .form-field {
     margin: 0 .5vw;
 }
+
+.notas-salvas {
+    display: flex;
+    justify-content: space-between;
+}
+
+.note-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: end;
+}
+
+.note-delete-button {
+    display: flex;
+    justify-content: end;
+}

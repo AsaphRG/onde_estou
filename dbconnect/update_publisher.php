@@ -19,15 +19,7 @@ if($data['csrf_token'] == $_SESSION['csrf_token']) {
         if ($publisher['name'] != $name) {
             $sql = $conn->prepare("UPDATE publisher SET name = ? WHERE id_publisher = ?");
             $sql->bind_param('si', $name, $id);
-            if ($sql->execute()) {
-                $message = $name." foi atualizada!";
-                header("Location: /PIE3/pages/publisher/publishers.php?success=".urlencode($message));
-                exit();
-            } else {
-                $message = "O seguinte erro ocorreu ao tentar incluir a editora $name:<br>$sql->error";
-                header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
-                exit();
-            }
+            executeQuery($sql, $publisher, 'publisher', "$name foi atualizada!");
         } else {
             $message = "Não há campos a serem atualizados.";
             header("Location: /PIE3/pages/publisher/publishers.php?info=".urlencode($message));

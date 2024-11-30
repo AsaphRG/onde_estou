@@ -26,7 +26,5 @@ require ABSOLUTE_PATH.'/partials/init.php';
             <li><a href="<?= 'pages/publisher/publishers.php' ?>">Editoras</a></li>
             <li><a href="<?= 'pages/book/books.php' ?>">Livros</a></li>
         </ul>
-        <p>De bônus eu vou colocar um caminho pro banco de dados aqui embaixo sem toda a estilização pra ver se garante minha nota.</p>
-        <p><a href="<?= 'pages/the_db.php' ?>">Banco de dados</a></p>
     </section>
 <?php require ABSOLUTE_PATH.'/partials/end.php'; ?>

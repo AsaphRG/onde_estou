@@ -32,7 +32,7 @@ $books = mysqli_query($conn, 'SELECT * FROM book');
                     </div>
                 </a>
                 <div class="col">
-                    <form action="/PIE3/dbconnect/delete_book.php" method="post"><input type="hidden" name="csrf_token" valu="<?= $csrf_token ?>"><input type="hidden" name="id" value="<?= $book['id_book'] ?>"><button type="submit" class="btn btn-danger btn-sm"><i class='fa-solid fa-xmark'></i></button></form>
+                    <form action="/PIE3/dbconnect/delete_book.php" method="post"><input type="hidden" name="csrf_token" value="<?= $csrf_token ?>"><input type="hidden" name="id" value="<?= $book['id_book'] ?>"><button type="submit" class="btn btn-danger btn-sm"><i class='fa-solid fa-xmark'></i></button></form>
                 </div>
             </div>
         <?php endforeach; ?>

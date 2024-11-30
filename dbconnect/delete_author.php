@@ -17,21 +17,11 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
             $query = $conn->prepare("DELETE FROM author WHERE id_author = ?");
             $query->bind_param('i', $id);
 
-            try {
-                $query->execute();
-                $message = $author['name']." excluído(a) com sucesso.";
-                header("Location: /PIE3/pages/author/authors.php?success=".urlencode($message));
-                exit();
-            } catch (Exception $error) {
-                $message = "O seguinte erro ocorreu ao tentar excluir o autor ".$author['name'].": ".$error->getMessage();
-                header("Location: /PIE3/pages/author/authors.php?error=".urlencode($message));
-                exit();
-            }
+            executeQuery($query, $author, 'author', $author['name']." excluído(a) com sucesso.");
         } else {
             header("Location: /PIE3/pages/author/authors.php?error=Registro não encontrado para a chave enviada.");
             exit();
         }
-        
     }
 } else {
     $message = "Token de segurança inválido.";

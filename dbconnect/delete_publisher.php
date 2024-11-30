@@ -18,16 +18,7 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
             $query = $conn->prepare("DELETE FROM publisher WHERE id_publisher = ?");
             $query->bind_param('i', $id);
 
-            try {
-                $query->execute();
-                $message = $publisher['name']." excluída com sucesso.";
-                header("Location: /PIE3/pages/publisher/publishers.php?success=".urlencode($message));
-                exit();
-            } catch (Exception $error) {
-                $message = "O seguinte erro ocorreu ao tentar excluir a editora ".$publisher['name'].": ".$error->getMessage();
-                header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
-                exit();
-            }
+            executeQuery($query, $publisher, 'publisher', $publisher['name']." excluída com sucesso.");
         } else {
             header("Location: /PIE3/pages/publisher/publishers.php?error=Registro não encontrado para a chave enviada.");
             exit();

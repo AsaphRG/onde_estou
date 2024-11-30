@@ -16,13 +16,14 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
 
         $create_note = $conn->prepare("INSERT INTO note (id_book, init_page, end_page, note) VALUES (?, ?, ?, ?)");
         $create_note->bind_param('iiis', $data['id_book'], $data['init_page'], $data['end_page'], $data['note']);
-        if ($create_note->execute()) {
+        try {
+            $create_note->execute();
             $message = "Nota salva!";
-            header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."success=".urlencode($message));
+            header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&success=".urlencode($message));
             exit();
-        } else {
-            $message = "O seguinte erro ocorreu ao tentar incluir a nota no livro ".$book['title'].":<br>".$sql->error;
-            header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."error=".urlencode($message));
+        } catch (Exception $error) {
+            $message = "O seguinte erro ocorreu ao tentar incluir a nota no livro ".$book['title'].": ".$error->getMessage();
+            header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&error=".urlencode($message));
             exit();
         }
     } else {
@@ -32,6 +33,6 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&error=".urlencode($message));
     exit();
 }

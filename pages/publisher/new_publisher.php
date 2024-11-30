@@ -7,7 +7,7 @@
             <label class="form-label" for="name">Nome:</label>
             <input class="form-control" type="text" name="name" id="name" autofocus required>
         </div>
-        <input type="submit" value="Enviar">
+        <input class="btn btn-primary" type="submit" value="Enviar">
     </div>
 </form>
 

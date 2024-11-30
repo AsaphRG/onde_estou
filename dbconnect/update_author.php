@@ -19,15 +19,7 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
         if ($author['name'] != $name) {
             $sql = $conn->prepare("UPDATE author SET name = ? WHERE id_author = ?");
             $sql->bind_param('si', $name, $id);
-            if ($sql->execute()) {
-                $message = $name." foi atualizado!";
-                header("Location: /PIE3/pages/author/authors.php?success=".urlencode($message));
-                exit();
-            } else {
-                $message = "O seguinte erro ocorreu ao tentar incluir o(a) autor(a) ".$name.":<br>".$sql->error;
-                header("Location: /PIE3/pages/author/authors.php?error=".urlencode($message));
-                exit();
-            }
+            executeQuery($sql, $author, 'author', "$name foi atualizado!");
         } else {
             $message = "Não há campos a serem atualizados.";
             header("Location: /PIE3/pages/author/authors.php?info=".urlencode($message));
@@ -36,6 +28,6 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/author/author.php?id=$id&error=".urlencode($message));
     exit();
 }

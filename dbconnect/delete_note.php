@@ -10,21 +10,22 @@ if($data['csrf_token'] == $_SESSION['csrf_token']) {
         $query = $conn->prepare("DELETE FROM note WHERE id_note = ?");
         $query->bind_param('i', $id_note);
 
-        if ($query->execute() === TRUE) {
+        try {
+            $query->execute();
             $message = "Nota excluída.";
             header("Location: /PIE3/pages/book/book.php?id=$id_book&success=".urlencode($message));
             exit();
-        } else {
-            $message = "O seguinte erro ocorreu ao tentar excluir a nota ".$id_note.":<br>".$query->error;
+        } catch (Exception $error) {
+            $message = "O seguinte erro ocorreu ao tentar excluir a nota ".$id_note.":<br>".$error->getMessage();
             header("Location: /PIE3/pages/book/book.php?id=$id_book&error=".urlencode($message));
             exit();
         }
     } else {
-        header("Location: /PIE3/pages/book/book.php?id=$id_book&error=Registro não encontrado para a chave enviada.");
+        header("Location: /PIE3/pages/book/book.php?id=$id_book&error=O identificador da nota a ser excluída está vazio.");
         exit();
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/book/book.php?id=".$id_book."&error=".urlencode($message));
     exit();
 }

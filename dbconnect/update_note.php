@@ -43,12 +43,13 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
             $bind_param_types .= 'i';
             $fields_to_change[] = $note['id_note'];
             $update_query->bind_param($bind_param_types, ...$fields_to_change);
-            if ($update_query->execute()) {
+            try {
+                $update_query->execute();
                 $message = "Nota foi atualizada!";
                 header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&success=".urlencode($message));
                 exit();
-            } else {
-                $message = "O seguinte erro ocorreu ao tentar alterar a nota:<br>".$update_query->error;
+            } catch (Exception $error) {
+                $message = "O seguinte erro ocorreu ao tentar alterar a nota:<br>".$error->getMessage();
                 header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&error=".urlencode($message));
                 exit();
             }
@@ -64,6 +65,6 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&error=".urlencode($message));
     exit();
 }

@@ -70,8 +70,10 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     foreach ($authors_to_insert as $id_author) {
         $insert_book_author = $conn->prepare("INSERT INTO book_author (id_book, id_author) VALUES (?, ?)");
         $insert_book_author->bind_param('ii', $update_book['id_book'], $id_author);
-        if (!$insert_book_author->execute()) {
-            $message = "Erro ao inserir o autor $id_author no livro ".$update_book['title'].": ".$insert_book_author->error;
+        try {
+            $insert_book_author->execute();
+        } catch (Exception $error) {
+            $message = "Erro ao inserir o autor $id_author no livro ".$update_book['title'].": ".$error->getMessage();
             header("Location: /PIE3/pages/book/books.php?error=".urlencode($message));
             exit();
         }
@@ -81,8 +83,10 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     foreach ($authors_to_delete as $id_author) {
         $delete_book_author = $conn->prepare("DELETE FROM book_author WHERE id_book = ? AND id_author = ?");
         $delete_book_author->bind_param('ii', $update_book['id_book'], $id_author);
-        if (!$delete_book_author->execute()) {
-            $message = "Erro ao remover o autor $id_author do livro ".$update_book['title'].": ".$delete_book_author->error;
+        try {
+            $delete_book_author->execute();
+        } catch (Exception $error) {
+            $message = "Erro ao remover o autor $id_author do livro ".$update_book['title'].": ".$error->getMessage();
             header("Location: /PIE3/pages/book/books.php?error=".urlencode($message));
             exit();
         }
@@ -94,12 +98,13 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
         $bind_param_types .= 'i';
         $fields_to_change[] = $book['id_book'];
         $update_query->bind_param($bind_param_types, ...$fields_to_change);
-        if ($update_query->execute()) {
+        try {
+            $update_query->execute();
             $message = $update_book['title']." foi atualizado!";
             header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&success=".urlencode($message));
             exit();
-        } else {
-            $message = "O seguinte erro ocorreu ao tentar alterar o livro ".$update_book['name'].":<br>".$update_query->error;
+        } catch (Exception $error) {
+            $message = "O seguinte erro ocorreu ao tentar alterar o livro ".$update_book['name'].":<br>".$error->getMessage();
             header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&error=".urlencode($message));
             exit();
         }
@@ -114,6 +119,6 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/book/book.php?id=".$data['id_book']."&error=".urlencode($message));
     exit();
 }

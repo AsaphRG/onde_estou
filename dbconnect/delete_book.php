@@ -6,23 +6,31 @@ $id = $data['id'];
 
 if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     if (!empty($id)) {
-        $select_query = $conn->prepare("SELECT * FROM book WHERE id = ?");
+        $select_query = $conn->prepare("SELECT * FROM book WHERE id_book = ?");
         $select_query->bind_param('i', $id);
-        $select_query->execute();
-        $result = $select_query->get_result();
-        $book = $result->fetch_assoc();
-        $select_query->close();
+        try {
+            $select_query->execute();
+            $result = $select_query->get_result();
+            $book = $result->fetch_assoc();
+            $select_query->close();
+        } catch (Exception $error) {
+            $message = "O seguinte erro ocorreu ao tentar consultar o livro $id: ".$error->getMessage();
+            header("Location: /PIE3/pages/book/books.php?error=".urlencode($message));
+            exit();
+        }
 
         if ($book) {
             $primary_query = "DELETE FROM book WHERE id_book=$id";
             $secondary_query = "DELETE FROM book_author WHERE id_book=$id";
 
-            if (($conn->query($secondary_query) && $conn->query($primary_query)) === TRUE) {
+            try {
+                $conn->query($secondary_query);
+                $conn->query($primary_query);
                 $message = $book['title']." excluído com sucesso.";
                 header("Location: /PIE3/pages/book/books.php?success=".urlencode($message));
                 exit();
-            } else {
-                $message = "O seguinte erro ocorreu ao tentar excluir o livro ".$book['title'].":<br>".$query->error;
+            } catch (Exception $error) {
+                $message = "O seguinte erro ocorreu ao tentar excluir o livro ".$book['title'].": ".$error->getMessage();
                 header("Location: /PIE3/pages/book/books.php?error=".urlencode($message));
                 exit();
             }
@@ -33,6 +41,6 @@ if ($data['csrf_token'] == $_SESSION['csrf_token']) {
     }
 } else {
     $message = "Token de segurança inválido.";
-    header("Location: /PIE3/pages/publisher/publishers.php?error=".urlencode($message));
+    header("Location: /PIE3/pages/book/books.php?error=".urlencode($message));
     exit();
 }
